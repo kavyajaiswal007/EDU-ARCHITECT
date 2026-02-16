@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDU-ARCHITECT | Advanced Learning Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <!-- Landing Page -->
+    <div class="landing-page" id="landingPage">
+        <div class="landing-content">
+            <div class="landing-hero">
+                <i data-lucide="graduation-cap" class="hero-icon"></i>
+                <h1 class="hero-title">Welcome to EDU-ARCHITECT</h1>
+                <p class="hero-subtitle">Your personalized learning companion for Class 11 & 12</p>
+                <p class="hero-description">Master Physics, Chemistry, and Mathematics with detailed roadmaps, formulas,
+                    and exam insights.</p>
+                <button class="get-started-btn" onclick="app.showOnboarding()">
+                    Get Started
+                    <i data-lucide="arrow-right"></i>
+                </button>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i data-lucide="map"></i>
+                    <h3>Learning Roadmaps</h3>
+                    <p>Step-by-step guidance for every chapter</p>
+                </div>
+                <div class="feature-card">
+                    <i data-lucide="book-open"></i>
+                    <h3>Detailed Topics</h3>
+                    <p>Comprehensive coverage of concepts</p>
+                </div>
+                <div class="feature-card">
+                    <i data-lucide="function-square"></i>
+                    <h3>Formula Bank</h3>
+                    <p>Quick access to essential formulas</p>
+                </div>
+                <div class="feature-card">
+                    <i data-lucide="trophy"></i>
+                    <h3>Exam Focus</h3>
+                    <p>Board & competitive exam insights</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Onboarding Modal -->
+    <div class="onboarding-modal hidden" id="onboardingModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Let's Get Started!</h2>
+            <p class="modal-subtitle">Choose your preferences to dive into learning</p>
+
+            <div class="onboarding-step">
+                <label class="input-label">Select Your Class</label>
+                <div class="button-group">
+                    <button class="choice-btn" onclick="app.selectClass(event, '11')" data-class="11">Class 11</button>
+                    <button class="choice-btn" onclick="app.selectClass(event, '12')" data-class="12">Class 12</button>
+                </div>
+            </div>
+
+            <div class="onboarding-step">
+                <label class="input-label">Choose a Subject</label>
+                <div class="button-group">
+                    <button class="choice-btn" onclick="app.selectOnboardingSubject(event, 'Physics')"
+                        data-subject="Physics">
+                        <i data-lucide="atom"></i> Physics
+                    </button>
+                    <button class="choice-btn" onclick="app.selectOnboardingSubject(event, 'Chemistry')"
+                        data-subject="Chemistry">
+                        <i data-lucide="flask-conical"></i> Chemistry
+                    </button>
+                    <button class="choice-btn" onclick="app.selectOnboardingSubject(event, 'Maths')"
+                        data-subject="Maths">
+                        <i data-lucide="calculator"></i> Mathematics
+                    </button>
+                </div>
+            </div>
+
+            <button class="continue-btn" onclick="app.completeOnboarding()" disabled id="continueBtn">
+                Continue to Dashboard
+                <i data-lucide="arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="app-container" id="appContainer" style="display: none;">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <i data-lucide="graduation-cap" class="logo-icon"></i>
+                <h1 class="logo-text">EDU-ARCHITECT</h1>
+            </div>
+
+            <nav class="nav-menu">
+                <div class="nav-section">
+                    <h3>Subjects</h3>
+                    <button class="nav-item active" onclick="app.loadSubject('Physics')" data-subject="Physics">
+                        <i data-lucide="atom"></i>
+                        <span>Physics</span>
+                    </button>
+                    <button class="nav-item" onclick="app.loadSubject('Chemistry')" data-subject="Chemistry">
+                        <i data-lucide="flask-conical"></i>
+                        <span>Chemistry</span>
+                    </button>
+                    <button class="nav-item" onclick="app.loadSubject('Maths')" data-subject="Maths">
+                        <i data-lucide="calculator"></i>
+                        <span>Mathematics</span>
+                    </button>
+                </div>
+
+                <div class="nav-section bottom">
+                    <div class="theme-toggle" onclick="app.toggleTheme()">
+                        <i data-lucide="moon" class="moon-icon"></i>
+                        <i data-lucide="sun" class="sun-icon"></i>
+                        <span class="theme-label">Dark Mode</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="greeting">
+                    <h2 id="pageTitle">Physics Dashboard</h2>
+                    <p class="subtitle">Explore complex concepts with ease.</p>
+                </div>
+
+                <div class="controls">
+                    <div class="select-wrapper">
+                        <select id="classSelect" onchange="app.refreshContent()">
+                            <option value="11">Class 11</option>
+                            <option value="12">Class 12</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="select-icon"></i>
+                    </div>
+
+                    <div class="search-wrapper">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" placeholder="Search chapters..." onkeyup="app.searchChapters(this.value)">
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <!-- Chapter Grid -->
+                <div id="chapterGrid" class="chapter-grid">
+                    <!-- Cards will be injected here -->
+                </div>
+
+                <!-- Detailed View Modal/Panel -->
+                <div id="detailPanel" class="detail-panel hidden">
+                    <button class="close-detail" onclick="app.closeDetail()">
+                        <i data-lucide="x"></i>
+                    </button>
+                    <div class="detail-content" id="detailContent">
+                        <!-- Content injected dynamically -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>Designed by Kavya Jaiswal, Katyayni Baranwal, Ekta gupta , Kirti &copy; 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
